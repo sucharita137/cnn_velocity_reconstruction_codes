@@ -385,7 +385,7 @@ def vlin_at_halos(vlin_grid, halo_pos):
 # In[18]:
 
 
-def train_and_eval():
+def train_and_eval(make_plots=True):
     """
     Train density-only CNN on (GRID_FILE, TRAIN_REAL_IDX, TRAIN_HALO_FILE),
     then evaluate once on (TEST_REAL_IDX, TEST_HALO_FILE).
@@ -596,50 +596,50 @@ def train_and_eval():
     print(f"Baseline v_lin ρ (interpolated) = {rho_vlin:.4f}")
 
      # Plot v_lin vs CNN on new test
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True)
+     
+    if make_plots:
+        fig, axes = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True)
 
-    hb1 = hexbin_panel(
-        axes[0], v_true_test, vlin_baseline,
-        title="Linear Theory (v_lin)"
-    )
+        hb1 = hexbin_panel(
+            axes[0], v_true_test, vlin_baseline,
+            title="Linear Theory (v_lin)"
+        )
 
-    hb2 = hexbin_panel(
-        axes[1], v_true, v_pred,
-        title="CNN (raw)"
-    )
+        hb2 = hexbin_panel(
+            axes[1], v_true, v_pred,
+            title="CNN (raw)"
+        )
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.015, 0.7])
-    fig.colorbar(hb1, cax=cb_ax, label="log(count)")
+        cb_ax = fig.add_axes([0.92, 0.15, 0.015, 0.7])
+        fig.colorbar(hb1, cax=cb_ax, label="log(count)")
 
-    plt.suptitle(
-        f"Velocity Reconstruction (NEW TEST)\n"
-        f"Train Real {TRAIN_REAL_IDX} → Test Real {TEST_REAL_IDX}",
-        fontsize=16
-    )
+        plt.suptitle(
+            f"Velocity Reconstruction (NEW TEST)\n"
+            f"Train Real {TRAIN_REAL_IDX} → Test Real {TEST_REAL_IDX}",
+            fontsize=16
+        )
 
-    out_compare = os.path.join(
-        CHECKPOINT_DIR,
-        f"vlin_vs_cnn_density_pos_testReal{TEST_REAL_IDX}.png"
-    )
-    plt.savefig(out_compare, dpi=300, bbox_inches="tight")
-    print("Saved:", out_compare)
-    plt.show()
-
-
-# In[19]:
-
-
-train_and_eval()
-
-
-# In[ ]:
-
-
-
+        out_compare = os.path.join(
+            CHECKPOINT_DIR,
+            f"vlin_vs_cnn_density_pos_testReal{TEST_REAL_IDX}.png"
+        )
+        plt.savefig(out_compare, dpi=300, bbox_inches="tight")
+        print("Saved:", out_compare)
+        plt.show()
+    
+    return {
+    "rho_cnn": rho_raw,
+    "rho_vlin": rho_vlin,
+    "bias": bias_raw,
+    "rmse": rmse_raw,
+    "v_true": v_true,
+    "v_pred": v_pred,
+    "v_lin": vlin_baseline,
+    }
 
 
-# In[ ]:
-
+if __name__ == "__main__":
+    train_and_eval()
 
 
 
