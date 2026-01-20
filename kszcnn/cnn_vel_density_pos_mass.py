@@ -726,15 +726,24 @@ def train_and_eval():
     plt.savefig(out_compare, dpi=300, bbox_inches="tight")
     print("Saved:", out_compare)
     plt.show()
+    
+    return {
+    "rho_cnn": rho_raw,
+    "rho_vlin": rho_vlin,
+    "bias": bias_raw,
+    "rmse": rmse_raw,
+    "v_true": v_true_full,
+    "v_pred": v_pred_raw,
+    "v_lin": vlin_baseline,
+    }
 
 
-# In[16]:
+
+if __name__ == "__main__":
+    train_and_eval()
 
 
-#train_and_eval()
 
-
-# In[ ]:
 
 
 
