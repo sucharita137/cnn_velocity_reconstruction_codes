@@ -15,11 +15,10 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-data/
 # Large files 
-*.npy
-*.h5
-*.hdf5
+data/*.npy
+data/*.h5
+data/*.hdf5
 
 # Torch / checkpoints
 checkpoints/
