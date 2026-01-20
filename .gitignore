@@ -15,7 +15,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Large files (optional)
+data/
+# Large files 
 *.npy
 *.h5
 *.hdf5
