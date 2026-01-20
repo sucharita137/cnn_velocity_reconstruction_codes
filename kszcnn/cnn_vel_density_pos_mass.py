@@ -404,7 +404,7 @@ def vlin_at_halos(vlin_grid, halo_pos):
 # In[15]:
 
 
-def train_and_eval():
+def train_and_eval(make_plots=True):
    
     # ---------- 1. Grids & multi-scale density channels ----------
     grid_train, grid_test = memmap_grid_slices(GRID_FILE, [TRAIN_REAL_IDX, TEST_REAL_IDX])
@@ -697,35 +697,37 @@ def train_and_eval():
     print(f"Baseline v_lin ρ (interpolated) = {rho_vlin:.4f}")
 
     # ---------- 11. Plots: CNN vs linear theory ----------
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True)
+    
+    if make_plots:
+        fig, axes = plt.subplots(1, 2, figsize=(14, 6), constrained_layout=True)
 
-    hb1 = hexbin_panel(
-        axes[0],
-        v_true_full,
-        vlin_baseline,
-        title="Linear Theory (v_lin)"
-    )
+        hb1 = hexbin_panel(
+            axes[0],
+            v_true_full,
+            vlin_baseline,
+            title="Linear Theory (v_lin)"
+        )
 
-    hb2 = hexbin_panel(
-        axes[1],
-        v_true_full,
-        v_pred_raw,
-        title="CNN (raw)"
-    )
+        hb2 = hexbin_panel(
+            axes[1],
+            v_true_full,
+            v_pred_raw,
+            title="CNN (raw)"
+        )
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.015, 0.7])
-    fig.colorbar(hb1, cax=cb_ax, label="log(count)")
+        cb_ax = fig.add_axes([0.92, 0.15, 0.015, 0.7])
+        fig.colorbar(hb1, cax=cb_ax, label="log(count)")
 
-    plt.suptitle(
-        f"Velocity Reconstruction Comparison\n"
-        f"Train Realization {TRAIN_REAL_IDX} → Test {TEST_REAL_IDX}",
-        fontsize=16
-    )
+        plt.suptitle(
+            f"Velocity Reconstruction Comparison\n"
+            f"Train Realization {TRAIN_REAL_IDX} → Test {TEST_REAL_IDX}",
+            fontsize=16
+        )
 
-    out_compare = os.path.join(CHECKPOINT_DIR, "vlin_vs_cnn_comparison_raw.png")
-    plt.savefig(out_compare, dpi=300, bbox_inches="tight")
-    print("Saved:", out_compare)
-    plt.show()
+        out_compare = os.path.join(CHECKPOINT_DIR, "vlin_vs_cnn_comparison_raw.png")
+        plt.savefig(out_compare, dpi=300, bbox_inches="tight")
+        print("Saved:", out_compare)
+        plt.show()
     
     return {
     "rho_cnn": rho_raw,
