@@ -18,12 +18,18 @@ from torch.utils.data import Dataset, DataLoader, Subset
 from sklearn.model_selection import train_test_split
 
 
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(THIS_DIR, ".."))
+
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+
+
 # In[18]:
 
 
-GRID_FILE = "Grids_Mcdm_IllustrisTNG_1P_128_z=0.0.npy"
-TRAIN_HALO_FILE = "groups_090_1P_0.hdf5"
-TEST_HALO_FILE  = "groups_090_1P_p2_n1.hdf5"   
+GRID_FILE = os.path.join(DATA_DIR,"Grids_Mcdm_IllustrisTNG_1P_128_z=0.0.npy")
+TRAIN_HALO_FILE = os.path.join(DATA_DIR,"groups_090_1P_0.hdf5")
+TEST_HALO_FILE  = os.path.join(DATA_DIR,"groups_090_1P_p2_n1.hdf5")
 TRAIN_REAL_IDX = 0
 TEST_REAL_IDX = 14
 
